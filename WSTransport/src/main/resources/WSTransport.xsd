@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/WSTransport" xmlns:tns="http://www.example.org/WSTransport" elementFormDefault="qualified">
+
+    <element name="StopPointsRequest"
+    	type="tns:StopPointsRequestType">
+    </element>
+    
+    <element name="StopTimeRequest" type="tns:StopTimeRequestType"></element>
+    
+    <element name="StopPointsResponse"
+    	type="tns:StopPointsResponseType">
+    </element>
+    
+    <element name="StopTimeResponse" type="tns:StopTimeResponseType"></element>
+    
+    <complexType name="StopPointsRequestType"></complexType>
+
+    <complexType name="StopPointsResponseType">
+    	<sequence maxOccurs="unbounded" minOccurs="0">
+    		<element name="stopPoint" type="tns:StopPointType"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="StopTimeRequestType">
+    	<attribute name="stopPointId" type="int"></attribute>
+    </complexType>
+    
+    <complexType name="StopTimeResponseType">
+    	<attribute name="date" type="dateTime"></attribute>
+    </complexType>
+    
+    <complexType name="StopPointType">
+    	<attribute name="id" type="int"></attribute>
+    	<attribute name="friendlyName" type="string"></attribute>
+    </complexType>
+
+    <element name="LinesRequest" type="tns:LinesRequestType"></element>
+    
+    <element name="LinesResponse" type="tns:LinesResponseType"></element>
+    
+    <element name="RateRequest" type="tns:RateRequestType"></element>
+    
+
+    <complexType name="LinesResponseType">
+    	<sequence>
+    		<element name="line" type="tns:LineType"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="LinesRequestType"></complexType>
+
+    <element name="RateResponse" type="tns:RateResponseType"></element>
+    
+    <complexType name="RateRequestType">
+    	<attribute name="action" type="tns:RateActionType"></attribute>
+    </complexType>
+    
+    <simpleType name="RateActionType">
+    	<restriction base="string">
+    		<enumeration value="like"></enumeration>
+    		<enumeration value="dislike"></enumeration>
+    		<enumeration value="get"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="RateResponseType">
+    	<attribute name="likes" type="int"></attribute>
+    	<attribute name="dislikes" type="int"></attribute>
+    </complexType>
+
+    <complexType name="LineType">
+    	<attribute name="id" type="int"></attribute>
+    	<attribute name="friendlyName" type="string"></attribute>
+    </complexType>
+
+    <element name="BikeStationsRequest"
+    	type="tns:BikeStationsRequestType">
+    </element>
+    
+    <complexType name="BikeStationsRequestType"></complexType>
+
+    <element name="BikeStationsResponse"
+    	type="tns:BikeStationsResponseType">
+    </element>
+    
+    <complexType name="BikeStationsResponseType">
+    	<sequence>
+    		<element name="station" type="tns:BikeStationType"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="BikeStationType">
+    	<attribute name="number" type="int"></attribute>
+    	<attribute name="contract" type="string"></attribute>
+    	<attribute name="friendlyName" type="string"></attribute>
+    </complexType>
+
+    <element name="AvailableBikesRequest"
+    	type="tns:AvailableBikesRequestType">
+    </element>
+    
+    <complexType name="AvailableBikesRequestType">
+    	<attribute name="number" type="int"></attribute>
+    	<attribute name="contract" type="string"></attribute>
+    </complexType>
+
+    <element name="AvailableBikesResponse"
+    	type="tns:AvailableBikesResponseType">
+    </element>
+    
+    <complexType name="AvailableBikesResponseType">
+    	<attribute name="availableBikes" type="int"></attribute>
+    </complexType>
+</schema>
