@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:sws="http://www.springframework.org/schema/web-services"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sws="http://www.springframework.org/schema/web-services"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd">
 
-    <sws:annotation-driven/>
+	<sws:annotation-driven />
+
+	<sws:dynamic-wsdl id="WSTransport" portTypeName="WSTransport"
+		locationUri="/WSTransport/" targetNamespace="http://www.example.org/WSTransport/">
+		<sws:xsd location="/WEB-INF/xsd/WSTransport.xsd" />
+	</sws:dynamic-wsdl>
+
+	<bean id="WSTransportEndpoint" class="ws.WSTransportEndpoint">
+		<constructor-arg name="couchDbService" ref="couchDbService" />
+		<constructor-arg name="openDataService" ref="openDataService" />
+		<constructor-arg name="tisseoService" ref="tisseoService" />
+	</bean>
+	<bean id="couchDbService" class="ws.CouchDbServiceDummy" />
+	<bean id="openDataService" class="ws.OpenDataServiceDummy" />
+	<bean id="tisseoService" class="ws.TisseoServiceDummy" />
 
 
 </beans>
