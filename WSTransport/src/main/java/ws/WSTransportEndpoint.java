@@ -18,7 +18,7 @@ import data_types.BikeStation;
 
 @Endpoint
 public class WSTransportEndpoint {
-	public static final String NAMESPACE_URI = "http://www.example.org/WSTransport";
+	public static final String NAMESPACE_URI = "http://iaws/ws/transports";
 
 	private final ICouchDbService mCouchDbService;
 	private final IOpenDataService mOpenDataService;

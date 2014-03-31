@@ -1,6 +1,6 @@
-<BikeStationsResponse xmlns="http://www.example.org/WSTransport"
+<BikeStationsResponse xmlns="http://iaws/ws/transports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.example.org/WSTransport WSTransport.xsd">
+	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
 	<station number="1" contract="random contract" friendlyName="Random station" />
 	<station number="2" contract="random contract" friendlyName="Another random station" />
 </BikeStationsResponse>
