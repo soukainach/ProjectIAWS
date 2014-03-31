@@ -9,6 +9,7 @@ import interfaces.ITisseoService;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.Namespace;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.server.endpoint.annotation.XPathParam;
@@ -41,10 +42,11 @@ public class WSTransportEndpoint {
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")
+	@Namespace(prefix="tr", uri=NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleAvailableBikesRequest(
-			@XPathParam("//station/@number") Integer number,
-			@XPathParam("//station/@contract") String contract)
+			@XPathParam("//tr:station/@number") Integer number,
+			@XPathParam("//tr:station/@contract") String contract)
 			throws Exception {
 		List<BikeStation> bikeStations = mOpenDataService.getBikeStations();
 		BikeStation bikeStation = BikeStation
