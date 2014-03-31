@@ -42,7 +42,7 @@ public class WSTransportEndpoint {
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")
-	@Namespace(prefix="tr", uri=NAMESPACE_URI)
+	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleAvailableBikesRequest(
 			@XPathParam("//tr:station/@number") Integer number,
@@ -57,18 +57,22 @@ public class WSTransportEndpoint {
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LinesRequest")
-	public void handleLinesRequest() throws Exception {
-	}
-
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopPointsRequest")
-	public void handleStopPointsRequest() throws Exception {
-	}
-
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopTimeRequest")
-	public void handleStopTimeRequest() throws Exception {
+	@ResponsePayload
+	public Element handleLinesRequest() throws Exception {
+		return XmlHelper.linesResponse(mTisseoService.getLines());
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "RateRequest")
 	public void handleRateRequest() throws Exception {
+	}
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopPointsRequest")
+	@ResponsePayload
+	public Element handleStopPointsRequest() throws Exception {
+		return XmlHelper.stopPointsResponse(mTisseoService.getStopPoints());
+	}
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopTimeRequest")
+	public void handleStopTimeRequest() throws Exception {
 	}
 }

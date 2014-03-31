@@ -30,23 +30,45 @@ public class EndpointIntegrationTest {
 	}
 
 	@Test
-	public void BikeStations() throws Exception {
+	public void bikeStations() throws Exception {
 		Source requestPayload = new StreamSource(new ClassPathResource(
 				"BikeStationsRequest.xml").getInputStream());
 		Source responsePayload = new StreamSource(new ClassPathResource(
 				"BikeStationsResponse.xml").getInputStream());
-		
+
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
 	}
-	
+
 	@Test
-	public void AvailableBikes() throws Exception {
+	public void availableBikes() throws Exception {
 		Source requestPayload = new StreamSource(new ClassPathResource(
 				"AvailableBikesRequest.xml").getInputStream());
 		Source responsePayload = new StreamSource(new ClassPathResource(
 				"AvailableBikesResponse.xml").getInputStream());
-		
+
+		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
+				payload(responsePayload));
+	}
+
+	@Test
+	public void lines() throws Exception {
+		Source requestPayload = new StreamSource(new ClassPathResource(
+				"LinesRequest.xml").getInputStream());
+		Source responsePayload = new StreamSource(new ClassPathResource(
+				"LinesResponse.xml").getInputStream());
+
+		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
+				payload(responsePayload));
+	}
+
+	@Test
+	public void stopPoints() throws Exception {
+		Source requestPayload = new StreamSource(new ClassPathResource(
+				"StopPointsRequest.xml").getInputStream());
+		Source responsePayload = new StreamSource(new ClassPathResource(
+				"StopPointsResponse.xml").getInputStream());
+
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
 	}
