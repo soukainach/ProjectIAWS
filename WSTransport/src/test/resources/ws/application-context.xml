@@ -14,6 +14,4 @@
 	<bean id="couchDbService" class="ws.CouchDbServiceDummy" />
 	<bean id="openDataService" class="ws.OpenDataServiceDummy" />
 	<bean id="tisseoService" class="ws.TisseoServiceDummy" />
-
-
 </beans>

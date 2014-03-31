@@ -10,14 +10,15 @@ import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.server.endpoint.annotation.XPathParam;
-import org.jdom.Element;
+import org.w3c.dom.Element;
 
 import data_types.BikeStation;
 
 @Endpoint
 public class WSTransportEndpoint {
-	private static final String NAMESPACE_URI = "http://www.example.org/WSTransport/";
+	public static final String NAMESPACE_URI = "http://www.example.org/WSTransport";
 
 	private final ICouchDbService mCouchDbService;
 	private final IOpenDataService mOpenDataService;
@@ -33,19 +34,24 @@ public class WSTransportEndpoint {
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BikeStationsRequest")
+	@ResponsePayload
 	public Element handleBikeStationsRequest() throws Exception {
-		return XmlHelper.bikeStationsResponse(mOpenDataService.getBikeStations());
+		return XmlHelper.bikeStationsResponse(mOpenDataService
+				.getBikeStations());
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AvailableBikesRequest")
+	@ResponsePayload
 	public Element handleAvailableBikesRequest(
-			@XPathParam("/AvailableBikesRequest/number") Integer number,
-			@XPathParam("/AvailableBikesRequest/contract") String contract)
+			@XPathParam("//station/@number") Integer number,
+			@XPathParam("//station/@contract") String contract)
 			throws Exception {
 		List<BikeStation> bikeStations = mOpenDataService.getBikeStations();
-		BikeStation bikeStation = BikeStation.getBikeStationByNumberAndContract(number, contract, bikeStations);
+		BikeStation bikeStation = BikeStation
+				.getBikeStationByNumberAndContract(number, contract,
+						bikeStations);
 		int availableBikes = mOpenDataService.getAvailableBikes(bikeStation);
-		return XmlHelper.availableBikesResponse(availableBikes);
+		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LinesRequest")

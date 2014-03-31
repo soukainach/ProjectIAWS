@@ -30,12 +30,23 @@ public class EndpointIntegrationTest {
 	}
 
 	@Test
-	public void WSTransportEndpoint() throws Exception {
+	public void BikeStations() throws Exception {
 		Source requestPayload = new StreamSource(new ClassPathResource(
 				"BikeStationsRequest.xml").getInputStream());
 		Source responsePayload = new StreamSource(new ClassPathResource(
 				"BikeStationsResponse.xml").getInputStream());
-
+		
+		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
+				payload(responsePayload));
+	}
+	
+	@Test
+	public void AvailableBikes() throws Exception {
+		Source requestPayload = new StreamSource(new ClassPathResource(
+				"AvailableBikesRequest.xml").getInputStream());
+		Source responsePayload = new StreamSource(new ClassPathResource(
+				"AvailableBikesResponse.xml").getInputStream());
+		
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
 	}

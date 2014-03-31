@@ -1,0 +1,5 @@
+<AvailableBikesRequest xmlns="http://www.example.org/WSTransport"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/WSTransport WSTransport.xsd">
+	<station number="2" contract="random contract" friendlyName="Another random station" />
+</AvailableBikesRequest>

@@ -1,2 +1,3 @@
-<BikeStationsRequest xmlns="http://www.example.org/WSTransport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.example.org/WSTransport WSTransport.xsd"></BikeStationsRequest>
+<BikeStationsRequest xmlns="http://www.example.org/WSTransport"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/WSTransport WSTransport.xsd"></BikeStationsRequest>

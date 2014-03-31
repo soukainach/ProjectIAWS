@@ -98,10 +98,11 @@
     <element name="AvailableBikesRequest"
     	type="tns:AvailableBikesRequestType">
     </element>
-    
+
     <complexType name="AvailableBikesRequestType">
-    	<attribute name="number" type="int"></attribute>
-    	<attribute name="contract" type="string"></attribute>
+    	<sequence>
+    		<element name="station" type="tns:BikeStationType"></element>
+    	</sequence>
     </complexType>
 
     <element name="AvailableBikesResponse"
@@ -109,6 +110,10 @@
     </element>
     
     <complexType name="AvailableBikesResponseType">
+
+    	<sequence>
+    		<element name="station" type="tns:BikeStationType"></element>
+    	</sequence>
     	<attribute name="availableBikes" type="int"></attribute>
     </complexType>
 </schema>
