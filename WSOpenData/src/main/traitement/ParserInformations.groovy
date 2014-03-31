@@ -43,7 +43,13 @@ public class ParserInformations {
 		
 		for(int i=0;i<dept.size();i++)
 		{
-		println dept[i].dateTime
+			
+			System.out.println("la ligne :"+dept[i].line.name+ " Numéro de bus :"+dept[i].line.shortName)
+	   // println ("la ligne : " +dept[i].line.name , " numéro de bus :" +dept[i].line.)
+	//	println dept[i].dateTime 
+	  
+		
+		
 		}
 		
 		
