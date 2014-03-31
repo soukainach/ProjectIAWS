@@ -4,44 +4,73 @@ import groovy.json.JsonSlurper;
 import groovy.json.JsonSlurper.*
 import net.sf.json.JSONObject.*
 import groovy.json.JsonOutput.*
+import java.util.List;
+import java.util.Map;
 
 /**
  * Cette classe  va parser le résultat Json retourné par le web service tisseo et permet  de
  * récupérer la liste 
  */
-public class ParserInformationsDepart {
+public class ParserInformations {
 
-	private String ligne
-	private String nomDestination
-	private String dateDepart
-	private String ville
+	private String dateTime
+	private String LineName
+	private String ShortName
+	private String DestinationName
 	
-	ParserInformationsDepart(){
+	
+	
+	ParserInformations(){
 		
-		ligne = ""
-		nomDestination = ""
-		dateDepart = ""
-		ville = ""
+		dateTime = ""
+		LineName = ""
+		ShortName = ""
+		DestinationName = ""
+ 	
+	}
+	/***
+	 * 
+	 * @param documentJson
+	 */
+	void parserArrets(def documentJson) {
+		JsonSlurper sluuuurp = new JsonSlurper()
+		def jsonParse = sluuuurp.parseText(documentJson.toString())
 		
+		Map jsonResult = (Map) jsonParse;
+		Map departures = (Map) jsonResult.get("departures");
+		
+		List dept = (List) departures.get("departure");
+		
+		for(int i=0;i<dept.size();i++)
+		{
+		println dept[i].dateTime
+		}
+		
+		
+		
+	} 
+
+	/********
+	 * 
+	 * Getters and Setters
+	 * 
+	 *****/
+	
+	String getdateTime() {
+		dateTime
 	}
 	
-	
-	void parserPosition(def documentJson) {
-		JsonSlurper jslurp = new JsonSlurper()
-		def jsonParse = jslurp.parseText(documentJson.toString())
-		def arretsList = new ArrayList<ParserInformationsDepart>()
-		
-		jslurp.each {
-			aArret ->
-			  def arret = new ParserInformationsDepart()
-			 
-		  }
-		
-		arretsList.each {aUser -> println aUser}
-		
-		
+	String getlineName() {
+		LineName
 	}
 	
+	String getShortName(){
+		ShortName
+	}
+	String getDestinationName(){
+		
+	   DestinationName 
+	}
 	
 	
 }

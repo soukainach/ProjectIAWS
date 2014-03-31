@@ -3,6 +3,11 @@ import main.ws.*
 
 class WSOpenDataTEST extends GroovyTestCase {
 	
+	/****
+	 * 
+	 * 
+	 ****/
+	
 	void testListeLigne() {
 		OpenData ligneTest = new OpenData()
 		def retour = ligneTest.ListeLignes()
@@ -12,11 +17,13 @@ class WSOpenDataTEST extends GroovyTestCase {
 	
 	/******
 	 * Tester listes de stations de velos de Toulouse
-	 */
+	 ***/
+	
+	
 	void testStationVelos() {
 		OpenData stationsTest = new OpenData()
-		def retour = stationsTest.getJsonStation(195)
-		println retour
+		def retour = stationsTest.getJsonStation()
+		//println retour
 		assertTrue(retour != "Erreur")
 	  }
 	
