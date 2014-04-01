@@ -13,7 +13,12 @@
 
 	<xs:element name="StopTimeResponse" type="tr:StopTimeResponseType"></xs:element>
 
-	<xs:complexType name="StopPointsRequestType"></xs:complexType>
+	<xs:complexType name="StopPointsRequestType">
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType" maxOccurs="1"
+				minOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="StopPointsResponseType">
 		<xs:sequence maxOccurs="unbounded" minOccurs="0">

@@ -16,6 +16,7 @@ import org.springframework.ws.server.endpoint.annotation.XPathParam;
 import org.w3c.dom.Element;
 
 import data_types.BikeStation;
+import data_types.Line;
 
 @Endpoint
 public class WSTransportEndpoint {
@@ -67,9 +68,12 @@ public class WSTransportEndpoint {
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopPointsRequest")
+	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
-	public Element handleStopPointsRequest() throws Exception {
-		return XmlHelper.stopPointsResponse(mTisseoService.getStopPoints());
+	public Element handleStopPointsRequest(@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName) throws Exception {
+		Line line = new Line(lineId, lineFriendlyName);
+		return XmlHelper.stopPointsResponse(mTisseoService.getStopPoints(line));
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopTimeRequest")

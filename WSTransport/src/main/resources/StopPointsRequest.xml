@@ -1,3 +1,5 @@
 <StopPointsRequest xmlns="http://iaws/ws/transports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd"></StopPointsRequest>
+	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
+	<line id="1" friendlyName="Ligne lambda"></line>
+</StopPointsRequest>

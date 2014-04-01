@@ -8,7 +8,6 @@ import data_types.StopPoint;
 
 public interface ITisseoService {
 	List<Line> getLines();
-	List<Line> getLines(StopPoint stopPoint);
-	List<StopPoint> getStopPoints();
+	List<StopPoint> getStopPoints(Line line);
 	Calendar getNextStop(Line line, StopPoint stopPoint);
 }
