@@ -27,10 +27,18 @@
 	</xs:complexType>
 
 	<xs:complexType name="StopTimeRequestType">
-		<xs:attribute name="stopPointId" type="xs:int"></xs:attribute>
+
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType"></xs:element>
+			<xs:element name="stopPoint" type="tr:StopPointType"></xs:element>
+		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="StopTimeResponseType">
+		<xs:sequence>
+            <xs:element name="line" type="tr:LineType"></xs:element>
+            <xs:element name="stopPoint" type="tr:StopPointType"></xs:element>
+		</xs:sequence>
 		<xs:attribute name="date" type="xs:dateTime"></xs:attribute>
 	</xs:complexType>
 

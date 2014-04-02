@@ -72,6 +72,18 @@ public class XmlHelper {
 		return document.getDocumentElement();
 	}
 
+	public static Element stopTimeResponse(Line line, StopPoint stopPoint,
+			String nextStop) {
+		Document document = mBuilder.newDocument();
+		Element root = document.createElement("StopTimeResponse");
+		setupRootAttributes(root);
+		document.appendChild(root);
+		root.appendChild(line(document, line));
+		root.appendChild(stopPoint(document, stopPoint));
+		root.setAttribute("date", nextStop);
+		return document.getDocumentElement();
+	}
+
 	private static Element stopPoint(Document document, StopPoint stopPoint) {
 		Element ret = document.createElement("stopPoint");
 		ret.setAttribute("id", "" + stopPoint.getId());

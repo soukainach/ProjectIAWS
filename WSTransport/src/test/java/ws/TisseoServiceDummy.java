@@ -1,7 +1,6 @@
 package ws;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import data_types.Line;
@@ -18,14 +17,16 @@ public class TisseoServiceDummy implements ITisseoService {
 	}
 
 	public List<StopPoint> getStopPoints(Line line) {
+		if (line.getId() != 2) {
+			return new ArrayList<StopPoint>();
+		}
 		List<StopPoint> ret = new ArrayList<StopPoint>();
 		ret.add(new StopPoint(1, "Point d'arrêt 1"));
 		ret.add(new StopPoint(2, "Point d'arrêt 2"));
 		return ret;
 	}
 
-	public Calendar getNextStop(Line line, StopPoint stopPoint) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getNextStop(Line line, StopPoint stopPoint) {
+		return "2002-05-30T09:30:10.5";
 	}
 }

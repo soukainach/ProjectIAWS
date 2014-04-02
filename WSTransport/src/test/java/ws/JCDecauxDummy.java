@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_types.BikeStation;
-import interfaces.IOpenDataService;
+import interfaces.JCDecauxService;
 
-public class OpenDataServiceDummy implements IOpenDataService {
+public class JCDecauxDummy implements JCDecauxService {
 
 	public List<BikeStation> getBikeStations() {
 		List<BikeStation> ret = new ArrayList<BikeStation>();

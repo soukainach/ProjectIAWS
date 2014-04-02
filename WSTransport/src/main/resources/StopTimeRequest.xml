@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StopTimeRequest xmlns="http://iaws/ws/transports"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
+	<line id="2" friendlyName="Ligne lambda 2"></line>
+	<stopPoint id="2" friendlyName="Point d'arrêt 2"></stopPoint>
+</StopTimeRequest>

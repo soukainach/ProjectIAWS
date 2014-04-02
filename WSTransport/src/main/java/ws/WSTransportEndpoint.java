@@ -3,7 +3,7 @@ package ws;
 import java.util.List;
 
 import interfaces.ICouchDbService;
-import interfaces.IOpenDataService;
+import interfaces.JCDecauxService;
 import interfaces.ITisseoService;
 
 import org.jdom.JDOMException;
@@ -17,18 +17,19 @@ import org.w3c.dom.Element;
 
 import data_types.BikeStation;
 import data_types.Line;
+import data_types.StopPoint;
 
 @Endpoint
 public class WSTransportEndpoint {
 	public static final String NAMESPACE_URI = "http://iaws/ws/transports";
 
 	private final ICouchDbService mCouchDbService;
-	private final IOpenDataService mOpenDataService;
+	private final JCDecauxService mOpenDataService;
 	private final ITisseoService mTisseoService;
 
 	@Autowired
 	public WSTransportEndpoint(ICouchDbService couchDbService,
-			IOpenDataService openDataService, ITisseoService tisseoService)
+			JCDecauxService openDataService, ITisseoService tisseoService)
 			throws JDOMException {
 		mCouchDbService = couchDbService;
 		mOpenDataService = openDataService;
@@ -70,13 +71,25 @@ public class WSTransportEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopPointsRequest")
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
-	public Element handleStopPointsRequest(@XPathParam("//tr:line/@id") Integer lineId,
-			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName) throws Exception {
+	public Element handleStopPointsRequest(
+			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
+			throws Exception {
 		Line line = new Line(lineId, lineFriendlyName);
 		return XmlHelper.stopPointsResponse(mTisseoService.getStopPoints(line));
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopTimeRequest")
-	public void handleStopTimeRequest() throws Exception {
+	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
+	@ResponsePayload
+	public Element handleStopTimeRequest(
+			@XPathParam("//stopPoint/@id") Integer stopPointId,
+			@XPathParam("//stopPoint/@friendlyName") String stopPointFriendlyName,
+			@XPathParam("//line/@id") Integer lineId,
+			@XPathParam("//line/@friendlyName") String lineFriendlyName)
+			throws Exception {
+		StopPoint stopPoint = new StopPoint(stopPointId, stopPointFriendlyName);
+		Line line = new Line(lineId, lineFriendlyName);
+		return XmlHelper.stopTimeResponse(line, stopPoint, mTisseoService.getNextStop(line, stopPoint));
 	}
 }
