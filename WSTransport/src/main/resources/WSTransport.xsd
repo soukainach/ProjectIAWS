@@ -56,35 +56,34 @@
 
 	<xs:complexType name="LinesResponseType">
 		<xs:sequence>
-			<xs:element name="line" type="tr:LineType" minOccurs="0"
-				maxOccurs="unbounded"></xs:element>
+			<xs:element name="line" type="tr:RatedLineType"
+				minOccurs="0" maxOccurs="unbounded">
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="LinesRequestType"></xs:complexType>
 
-	<xs:element name="RateResponse" type="tr:RateResponseType"></xs:element>
 
 	<xs:complexType name="RateRequestType">
-		<xs:attribute name="action" type="tr:RateActionType"></xs:attribute>
+
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="action" type="tr:RateActionType"></xs:attribute>
 	</xs:complexType>
 
 	<xs:simpleType name="RateActionType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="like"></xs:enumeration>
 			<xs:enumeration value="dislike"></xs:enumeration>
-			<xs:enumeration value="get"></xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:complexType name="RateResponseType">
-		<xs:attribute name="likes" type="xs:int"></xs:attribute>
-		<xs:attribute name="dislikes" type="xs:int"></xs:attribute>
-	</xs:complexType>
 
 	<xs:complexType name="LineType">
 		<xs:attribute name="id" type="xs:int"></xs:attribute>
-		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
 	</xs:complexType>
 
 	<xs:element name="BikeStationsRequest" type="tr:BikeStationsRequestType">
@@ -127,5 +126,14 @@
     		<xs:element name="station" type="tr:BikeStationType"></xs:element>
     	</xs:sequence>
     	<xs:attribute name="availableBikes" type="xs:int"></xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="RatedLineType">
+    	<xs:complexContent>
+    		<xs:extension base="tr:LineType">
+    			<xs:attribute name="likes" type="xs:int"></xs:attribute>
+    			<xs:attribute name="dislikes" type="xs:int"></xs:attribute>
+    		</xs:extension>
+    	</xs:complexContent>
     </xs:complexType>
 </xs:schema>

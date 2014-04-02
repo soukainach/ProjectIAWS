@@ -11,6 +11,7 @@ import org.w3c.dom.Element;
 
 import data_types.BikeStation;
 import data_types.Line;
+import data_types.RatedLine;
 import data_types.StopPoint;
 
 public class XmlHelper {
@@ -50,13 +51,13 @@ public class XmlHelper {
 		return document.getDocumentElement();
 	}
 
-	public static Element linesResponse(List<Line> lines) {
+	public static Element linesResponse(List<RatedLine> lines) {
 		Document document = mBuilder.newDocument();
 		Element root = document.createElement("LinesResponse");
 		setupRootAttributes(root);
 		document.appendChild(root);
-		for (Line line : lines) {
-			root.appendChild(line(document, line));
+		for (RatedLine line : lines) {
+			root.appendChild(ratedLine(document, line));
 		}
 		return document.getDocumentElement();
 	}
@@ -97,6 +98,15 @@ public class XmlHelper {
 		ret.setAttribute("number", "" + bikeStation.getNumber());
 		ret.setAttribute("contract", bikeStation.getContract());
 		ret.setAttribute("friendlyName", bikeStation.getFriendlyName());
+		return ret;
+	}
+
+	private static Element ratedLine(Document document, RatedLine line) {
+		Element ret = document.createElement("line");
+		ret.setAttribute("id", line.getId() + "");
+		ret.setAttribute("friendlyName", line.getFriendlyName());
+		ret.setAttribute("likes", "" + line.getLikes());
+		ret.setAttribute("dislikes", "" + line.getDislikes());
 		return ret;
 	}
 

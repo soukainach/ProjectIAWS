@@ -8,10 +8,10 @@
 
 	<bean id="WSTransportEndpoint" class="ws.WSTransportEndpoint">
 		<constructor-arg name="couchDbService" ref="couchDbService" />
-		<constructor-arg name="openDataService" ref="openDataService" />
+		<constructor-arg name="jcdecauxService" ref="JCDecauxService" />
 		<constructor-arg name="tisseoService" ref="tisseoService" />
 	</bean>
 	<bean id="couchDbService" class="ws.CouchDbServiceDummy" />
-	<bean id="openDataService" class="ws.OpenDataServiceDummy" />
+	<bean id="JCDecauxService" class="ws.JCDecauxServiceDummy" />
 	<bean id="tisseoService" class="ws.TisseoServiceDummy" />
 </beans>

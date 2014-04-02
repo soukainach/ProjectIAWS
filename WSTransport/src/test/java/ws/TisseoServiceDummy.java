@@ -17,7 +17,7 @@ public class TisseoServiceDummy implements ITisseoService {
 	}
 
 	public List<StopPoint> getStopPoints(Line line) {
-		if (line.getId() != 2) {
+		if (line.getId() != 1) {
 			return new ArrayList<StopPoint>();
 		}
 		List<StopPoint> ret = new ArrayList<StopPoint>();

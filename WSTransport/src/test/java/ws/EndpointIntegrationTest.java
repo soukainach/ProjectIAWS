@@ -72,7 +72,7 @@ public class EndpointIntegrationTest {
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
 	}
-	
+
 	@Test
 	public void stopTime() throws Exception {
 		Source requestPayload = new StreamSource(new ClassPathResource(
@@ -82,6 +82,14 @@ public class EndpointIntegrationTest {
 
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
+	}
+
+	@Test
+	public void rate() throws Exception {
+		Source requestPayload = new StreamSource(new ClassPathResource(
+				"StopTimeRequest.xml").getInputStream());
+
+		mockClient.sendRequest(withPayload(requestPayload));
 	}
 
 }

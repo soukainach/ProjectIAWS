@@ -1,5 +1,6 @@
 package ws;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import interfaces.ICouchDbService;
@@ -17,6 +18,7 @@ import org.w3c.dom.Element;
 
 import data_types.BikeStation;
 import data_types.Line;
+import data_types.RatedLine;
 import data_types.StopPoint;
 
 @Endpoint
@@ -29,10 +31,10 @@ public class WSTransportEndpoint {
 
 	@Autowired
 	public WSTransportEndpoint(ICouchDbService couchDbService,
-			JCDecauxService openDataService, ITisseoService tisseoService)
+			JCDecauxService jcdecauxService, ITisseoService tisseoService)
 			throws JDOMException {
 		mCouchDbService = couchDbService;
-		mOpenDataService = openDataService;
+		mOpenDataService = jcdecauxService;
 		mTisseoService = tisseoService;
 	}
 
@@ -58,16 +60,6 @@ public class WSTransportEndpoint {
 		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LinesRequest")
-	@ResponsePayload
-	public Element handleLinesRequest() throws Exception {
-		return XmlHelper.linesResponse(mTisseoService.getLines());
-	}
-
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "RateRequest")
-	public void handleRateRequest() throws Exception {
-	}
-
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "StopPointsRequest")
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
@@ -83,13 +75,41 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleStopTimeRequest(
-			@XPathParam("//stopPoint/@id") Integer stopPointId,
-			@XPathParam("//stopPoint/@friendlyName") String stopPointFriendlyName,
-			@XPathParam("//line/@id") Integer lineId,
-			@XPathParam("//line/@friendlyName") String lineFriendlyName)
+			@XPathParam("//tr:stopPoint/@id") Integer stopPointId,
+			@XPathParam("//tr:stopPoint/@friendlyName") String stopPointFriendlyName,
+			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
 		StopPoint stopPoint = new StopPoint(stopPointId, stopPointFriendlyName);
 		Line line = new Line(lineId, lineFriendlyName);
-		return XmlHelper.stopTimeResponse(line, stopPoint, mTisseoService.getNextStop(line, stopPoint));
+		return XmlHelper.stopTimeResponse(line, stopPoint,
+				mTisseoService.getNextStop(line, stopPoint));
 	}
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "LinesRequest")
+	@ResponsePayload
+	public Element handleLinesRequest() throws Exception {
+		List<Line> lines = mTisseoService.getLines();
+		List<RatedLine> ratedLines = new ArrayList<RatedLine>();
+		for (Line line : lines) {
+			ratedLines.add(mCouchDbService.getLineRatings(line));
+		}
+		return XmlHelper.linesResponse(ratedLines);
+	}
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "RateRequest")
+	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
+	public void handleRateRequest(
+			@XPathParam("/tr:RateRequest/@action") String action,
+			@XPathParam("//tr:line/@lid") Integer id,
+			@XPathParam("//tr:line/@friendlyName") String friendlyName)
+			throws Exception {
+		Line line = new Line(id, friendlyName);
+		if (action.equals("like")) {
+			mCouchDbService.registerLike(line);
+		} else if (action.equals("dislike")) {
+			mCouchDbService.registerDislike(line);
+		}
+	}
+
 }
