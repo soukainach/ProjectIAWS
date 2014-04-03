@@ -1,13 +1,15 @@
 package main.ws
 
-import javax.net.ssl.X509TrustManager
-import javax.net.ssl.SSLContext
-import java.security.cert.X509Certificate
-import javax.net.ssl.TrustManager
-import java.security.SecureRandom
-import org.apache.http.conn.ssl.SSLSocketFactory
-import org.apache.http.conn.scheme.Scheme
-import org.apache.http.conn.scheme.SchemeRegistry
+import main.ws.TrustManager
+
+import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.JSON
 
@@ -22,18 +24,48 @@ import static groovyx.net.http.ContentType.JSON
 class OpenData {
 	
 	
+	
+	/*****
+	 * 
+	 * @return listes de arrets d'une ligne choisi par l'utilisateur 
+	 * 
+	 *****/
+	
+	def ListeArretsLigne(def lineid)
+	{
+		def retourJson = "Erreur"
+		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
+		def path='/stopAreasList?lineId='+lineid+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
+	
+    
+		//Get request
+		adresseServeur.request(Method.GET, JSON) {
+		
+			uri.path = path
+		  
+			// success response handler
+			response.success = { resp, json ->
+				retourJson = json
+			}
+		  
+			// failure response handler
+			response.failure = { resp ->
+				println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
+			}
+		}		
+	}
 
 /********
  * 
- * retourner des informations concernant les coordonnés XY et les prochains arrêtes 
+ * Retourner la liste de prochains passages 
  * 
  *******/
-	def ListeLignes(Integer id) {
+	def ListeLignes(def stopId) {
 		
 		  def retourJson = "Erreur"
 		  def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
 		  
-		  def path= 'departureBoard?stopPointId=1970324837185012&key=a03561f2fd10641d96fb8188d209414d8&format=json'
+		  def path= 'departureBoard?stopPointId='+stopId+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
 		 
 		  
 		  //Get request
@@ -54,64 +86,38 @@ class OpenData {
 		 
 		  retourJson
 	  }
-	
-	/***
+
+	/****
 	 * 
-	 * @param number
-	 * @return une station de velo a partir de son numéro
-	 */
+	 * @return The list of tisseo network lines 
+	 * 
+	 *****/
 	
-	def getJsonStation(def number) {
-		def retourJson = null
-			 
-		  def adresseServeur = new HTTPBuilder("https://api.jcdecaux.com")
-		 
-		   adresseServeur.encoderRegistry = new EncoderRegistry(charset: "utf-8")
+	def LignesTisseo() {
+		
+		  def retourJson = "Erreur"
+		  def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
 		  
-	   
-		   //=== SSL UNSECURE CERTIFICATE ===
-	  
-		   def sslContext = SSLContext.getInstance("SSL")
-		   sslContext.init(null, [new X509TrustManager() {
-			   public X509Certificate[] getAcceptedIssuers() {null }
-	   
-			   public void checkClientTrusted(X509Certificate[] certs, String authType) { }
-	   
-			   public void checkServerTrusted(X509Certificate[] certs, String authType) { }
-		   }] as TrustManager[], new SecureRandom())
-	   
-		   //SSLSocketFactory sf = new org.apache.http.conn.ssl.SSLSocketFactory(sslContext, org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
-	   
-		   SSLSocketFactory sf = new org.apache.http.conn.ssl.SSLSocketFactory(sslContext)
-		   sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
-		   def httpsScheme = new Scheme("https", sf, 443)
-		   adresseServeur.client.connectionManager.schemeRegistry.register(httpsScheme)
+		  def path= '/linesList?format=json&network=Tisséo&key=a03561f2fd10641d96fb8188d209414d8'
 		 
-		 
-		  def path='/vls/v1/stations/${number}?contract=Toulouse&apiKey=969f71318582304067419dfddc9ea08b16d567f68'
+		  
 		  //Get request
-		  adresseServeur.request(Method.GET, ContentType.JSON) {
+		  adresseServeur.request(Method.GET, JSON) {
 		  
 			  uri.path = path
-			  
-			  headers.Accept = 'application/json'
-			  
+			
 			  // success response handler
 			  response.success = { resp, json ->
 				  retourJson = json
 			  }
 			
-			  // failure response handler 
+			  // failure response handler
 			  response.failure = { resp ->
 				  println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
 			  }
 		  }
 		 
 		  retourJson
-		
 	  }
-	
-	
-	
 	
 }
