@@ -60,6 +60,14 @@ class WSOpenDataTEST extends GroovyTestCase {
 		  }
 		
 		
+		 void testLikes()
+		 {
+			//OpenDataProchainsPassages ArretsligneTest = new OpenDataProchainsPassages()
+			 OpenData ligneTestA = new OpenData()
+			def retour = ligneTestA.Likes()
+			println retour
 		
+			assertTrue(retour != "Erreur")
+		  }
 	
 }

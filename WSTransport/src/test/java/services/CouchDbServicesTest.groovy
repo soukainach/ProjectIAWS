@@ -11,7 +11,7 @@ class CouchDbServicesTest extends GroovyTestCase  {
 		 {
 			
 			CouchDbService data = new CouchDbService()
-			def retour = data.getDataLike()
+			def retour = data.Likes()
 			println retour	
 			assertTrue(retour != "Erreur")
 		  }

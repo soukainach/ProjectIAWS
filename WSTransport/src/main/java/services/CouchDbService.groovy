@@ -11,6 +11,34 @@ import interfaces.ICouchDbService
 class CouchDbService implements ICouchDbService{
 
 	
+	def Likes() {
+		
+		  def retourJson = "Erreur"
+		  def adresseServeur = new HTTPBuilder("http://localhost:5984")
+		  
+		  def path= '/test/763d9a738924c91acdb160edb00005a8'
+		 
+		  
+		  //Get request
+		  adresseServeur.request(Method.GET, JSON) {
+		  
+			  uri.path = path
+			
+			  // success response handler
+			  response.success = { resp, json ->
+				  retourJson = json
+			  }
+			
+			  // failure response handler
+			  response.failure = { resp ->
+				  println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
+			  }
+		  }
+		 
+		  retourJson
+	  }
+	
+	
 	def getDataLike() 
 	{
 	     
