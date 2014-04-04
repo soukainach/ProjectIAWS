@@ -12,6 +12,7 @@ import java.util.List;
 
 import groovyx.net.http.*
 import static groovyx.net.http.ContentType.JSON
+import static groovyx.net.http.Method.*
 
 /****
  * 
@@ -149,5 +150,33 @@ class OpenData {
 	  }
 	
 	
+	def postLikes()
+	{
+	
+    def retourJson = "Erreur"
+		  def adresseServeur = new HTTPBuilder("http://localhost:5984")
+		  
+		  def path= '/test/763d9a738924c91acdb160edb00005a8'
+		 
+		  
+		  //Get request
+		  adresseServeur.request(Method.POST,JSON) {
+		  
+			  uri.path = path
+			 
+			body = [NameLine:'metro B',LikesNumber:'2']
+			  // success response handler
+			  response.success = { resp, json ->
+				  retourJson = json
+			  }
+			
+			  // failure response handler
+			  response.failure = { resp ->
+				  println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
+			  }
+		  }
+		 
+		  retourJson
+	}
 	
 }

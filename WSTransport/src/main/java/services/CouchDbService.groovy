@@ -11,34 +11,33 @@ import interfaces.ICouchDbService
 class CouchDbService implements ICouchDbService{
 
 	
-	def Likes() {
+	private void sendGet(Integer id) throws Exception {
+	
+		URL url;
 		
-		  def retourJson = "Erreur"
-		  def adresseServeur = new HTTPBuilder("http://localhost:5984")
-		  
-		  def path= '/test/763d9a738924c91acdb160edb00005a8'
-		 
-		  
-		  //Get request
-		  adresseServeur.request(Method.GET, JSON) {
-		  
-			  uri.path = path
-			
-			  // success response handler
-			  response.success = { resp, json ->
-				  retourJson = json
-			  }
-			
-			  // failure response handler
-			  response.failure = { resp ->
-				  println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
-			  }
-		  }
-		 
-		  retourJson
-	  }
+	try {
+	url = new URL("http://localhost:5984/test");
+    HttpURLConnection conn = url.openConnection();
+    conn.setRequestMethod("POST");
+    conn.setDoOutput(true);
+ 
+    OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+
+    writer.write(data);
+    writer.flush();
+    String line;
+    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    while ((line = reader.readLine()) != null) {
+      System.out.println(line);
+    }
+    writer.close();
+    reader.close();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+}
 	
-	
+	}
 	def getDataLike() 
 	{
 	     
