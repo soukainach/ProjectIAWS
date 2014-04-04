@@ -15,7 +15,7 @@ class WSOpenDataTEST extends GroovyTestCase {
 	void testListeLigne() {
 		OpenData ligneTest = new OpenData()
 		def retour = ligneTest.ListeLignes(1970324837184714)
-		println retour
+		//println retour
 	
 		assertTrue(retour != "Erreur")
 	  }

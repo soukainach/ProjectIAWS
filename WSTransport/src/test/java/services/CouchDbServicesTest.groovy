@@ -7,13 +7,14 @@ class CouchDbServicesTest extends GroovyTestCase  {
 
 	
 	
-void createBaseTest()
-{
-	CouchDbService test=new CouchDbService()
-	def retour=test.getData()
-	println retour
-		
-}
+ void testgetLikes()
+		 {
+			
+			CouchDbService data = new CouchDbService()
+			def retour = data.getDataLike()
+			println retour	
+			assertTrue(retour != "Erreur")
+		  }
 	
 	
 	
