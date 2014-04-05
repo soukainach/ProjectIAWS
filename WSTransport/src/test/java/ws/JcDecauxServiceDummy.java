@@ -10,8 +10,7 @@ public class JcDecauxServiceDummy implements IJcDecauxService {
 
 	public List<BikeStation> getBikeStations() {
 		List<BikeStation> ret = new ArrayList<BikeStation>();
-		ret.add(new BikeStation(1, "random contract", "Random station"));
-		ret.add(new BikeStation(2, "random contract", "Another random station"));
+		ret.add(new BikeStation(227, "Toulouse", "UPS métro"));
 		return ret;
 	}
 

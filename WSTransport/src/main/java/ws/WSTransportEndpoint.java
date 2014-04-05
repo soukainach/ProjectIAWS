@@ -101,7 +101,7 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	public void handleRateRequest(
 			@XPathParam("/tr:RateRequest/@action") String action,
-			@XPathParam("//tr:line/@lid") Integer id,
+			@XPathParam("//tr:line/@id") Integer id,
 			@XPathParam("//tr:line/@friendlyName") String friendlyName)
 			throws Exception {
 		Line line = new Line(id, friendlyName);
