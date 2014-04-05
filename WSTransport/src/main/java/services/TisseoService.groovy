@@ -2,12 +2,15 @@ package services
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import data_types.Line;
 import data_types.StopPoint;
 import groovy.json.JsonSlurper
 import groovyx.net.http.HTTPBuilder
 import interfaces.ITisseoService;
 
+@Service
 class TisseoService implements ITisseoService {
 
 	public List<Line> getLines() {

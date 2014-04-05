@@ -1,6 +1,9 @@
 package services
 
 import static groovyx.net.http.ContentType.JSON
+
+import org.springframework.stereotype.Service;
+
 import data_types.Line;
 import data_types.RatedLine;
 import groovyx.net.http.HTTPBuilder
@@ -8,6 +11,7 @@ import groovyx.net.http.HttpURLClient
 import groovyx.net.http.RESTClient
 import interfaces.ICouchDbService
 
+@Service
 class CouchDbService implements ICouchDbService{
 	private void sendGet(Integer id) throws Exception {
 

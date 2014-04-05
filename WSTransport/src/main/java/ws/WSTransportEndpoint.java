@@ -26,7 +26,7 @@ public class WSTransportEndpoint {
 	public static final String NAMESPACE_URI = "http://iaws/ws/transports";
 
 	private final ICouchDbService mCouchDbService;
-	private final IJcDecauxService mOpenDataService;
+	private final IJcDecauxService mJcDecauxService;
 	private final ITisseoService mTisseoService;
 
 	@Autowired
@@ -34,14 +34,14 @@ public class WSTransportEndpoint {
 			IJcDecauxService jcDecauxService, ITisseoService tisseoService)
 			throws JDOMException {
 		mCouchDbService = couchDbService;
-		mOpenDataService = jcDecauxService;
+		mJcDecauxService = jcDecauxService;
 		mTisseoService = tisseoService;
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BikeStationsRequest")
 	@ResponsePayload
 	public Element handleBikeStationsRequest() throws Exception {
-		return XmlHelper.bikeStationsResponse(mOpenDataService
+		return XmlHelper.bikeStationsResponse(mJcDecauxService
 				.getBikeStations());
 	}
 
@@ -52,11 +52,11 @@ public class WSTransportEndpoint {
 			@XPathParam("//tr:station/@number") Integer number,
 			@XPathParam("//tr:station/@contract") String contract)
 			throws Exception {
-		List<BikeStation> bikeStations = mOpenDataService.getBikeStations();
+		List<BikeStation> bikeStations = mJcDecauxService.getBikeStations();
 		BikeStation bikeStation = BikeStation
 				.getBikeStationByNumberAndContract(number, contract,
 						bikeStations);
-		int availableBikes = mOpenDataService.getAvailableBikes(bikeStation);
+		int availableBikes = mJcDecauxService.getAvailableBikes(bikeStation);
 		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
 

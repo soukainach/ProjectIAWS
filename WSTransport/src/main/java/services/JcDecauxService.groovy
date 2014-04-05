@@ -10,12 +10,14 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.stereotype.Service;
+
 import groovyx.net.http.*;
 import static groovyx.net.http.ContentType.JSON;
-
 import data_types.BikeStation;
 import interfaces.IJcDecauxService;
 
+@Service
 public class JcDecauxService implements IJcDecauxService {
 	private static final List<BikeStation> mUpsStations;
 

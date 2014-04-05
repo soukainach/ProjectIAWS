@@ -1,11 +1,14 @@
-package ws;
+package services;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import data_types.BikeStation;
 import interfaces.IJcDecauxService;
 
+@Service
 public class JcDecauxServiceDummy implements IJcDecauxService {
 
 	public List<BikeStation> getBikeStations() {
