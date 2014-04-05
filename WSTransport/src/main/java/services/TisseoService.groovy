@@ -28,7 +28,7 @@ class TisseoService implements ITisseoService {
 	}
 
 	public String getNextStop(Line line, StopPoint stopPoint) {
-		def stopTimes = stopTimesRequest();
+		def stopTimes = stopTimesRequest(stopPoint.getId());
 		return parseStopTimes(stopTimes);
 	}
 
@@ -105,59 +105,62 @@ class TisseoService implements ITisseoService {
 		Map jsonResult = (Map) jsonParse;
 		Map lines = (Map) jsonResult.get("physicalStops");
 
+		if(lines == null) {
+			return [];
+		}
+
 		List arr = (List) lines.get("physicalStop");
+
 
 		List<StopPoint> ret = [];
 
 		for(int i=0;i<arr.size();i++)
 		{
 			StopPoint stopPoint = new StopPoint(arr[i].id.toLong(), (String)arr[i].name);
+			ret.add(stopPoint);
 		}
 
 		return ret;
 	}
 
 	def stopTimesRequest(def stopId) {
+			def retourJson = "Erreur"
+			def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
 
-		def retourJson = "Erreur"
-		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
+			def path = "/departureBoard?stopPointId=" + stopId + "&key=" + API_KEY + "&format=json";
 
-		def path= 'departureBoard?stopPointId='+stopId+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
+			//Get request
+			adresseServeur.request(GET, JSON) {
 
+				uri.path = path
 
-		//Get request
-		adresseServeur.request(GET, JSON) {
+				// success response handler
+				response.success = { resp, json ->
+					retourJson = json
+				}
 
-			uri.path = path
-
-			// success response handler
-			response.success = { resp, json ->
-				retourJson = json
+				// failure response handler
+				response.failure = { resp -> println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}" }
 			}
-
-			// failure response handler
-			response.failure = { resp -> println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}" }
-		}
 
 		retourJson
 	}
 
 	String parseStopTimes(def documentJson) {
-		JsonSlurper sluuuurp = new JsonSlurper()
-		def jsonParse = sluuuurp.parseText(documentJson.toString())
+			JsonSlurper sluuuurp = new JsonSlurper()
+			def jsonParse = sluuuurp.parseText(documentJson.toString())
 
-		Map jsonResult = (Map) jsonParse;
-		Map departures = (Map) jsonResult.get("departures");
+			Map jsonResult = (Map) jsonParse;
+			Map departures = (Map) jsonResult.get("departures");
 
 
-		List dept = (List) departures.get("departure");
-
-		String ret;
-
-		if(dept.size() < 1) {
-			return "No stop in the short future";
-		}
-
-		return (String) dept[0].dateTime;
+			List dept = (List) departures.get("departure");
+			String ret = dept[0].dateTime;
+			
+			if(ret == null) {
+				ret = "No stop in the short future";
+			}
+			
+			return ret;
 	}
 }
