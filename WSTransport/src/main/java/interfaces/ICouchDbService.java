@@ -7,4 +7,5 @@ public interface ICouchDbService {
 	RatedLine getLineRatings(Line line);
 	void registerLike(Line line);
 	void registerDislike(Line line);
+	
 }
