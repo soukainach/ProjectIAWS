@@ -1,20 +1,20 @@
 package data_types;
 
 public class RatedLine extends Line {
-	private final int mLikes;
-	private final int mDislikes;
+	private final long mLikes;
+	private final long mDislikes;
 
-	public RatedLine(Line line, int likes, int dislikes) {
+	public RatedLine(Line line, long likes, long dislikes) {
 		super(line.getId(), line.getFriendlyName());
 		mLikes = likes;
 		mDislikes = dislikes;
 	}
 	
-	public int getLikes() {
+	public long getLikes() {
 		return mLikes;
 	}
 	
-	public int getDislikes() {
+	public long getDislikes() {
 		return mDislikes;
 	}
 }
