@@ -1,114 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/WSTransport" xmlns:tns="http://www.example.org/WSTransport" elementFormDefault="qualified">
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" targetNamespace="http://iaws/ws/transports"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tr="http://iaws/ws/transports">
 
-    <element name="StopPointsRequest"
-    	type="tns:StopPointsRequestType">
-    </element>
-    
-    <element name="StopTimeRequest" type="tns:StopTimeRequestType"></element>
-    
-    <element name="StopPointsResponse"
-    	type="tns:StopPointsResponseType">
-    </element>
-    
-    <element name="StopTimeResponse" type="tns:StopTimeResponseType"></element>
-    
-    <complexType name="StopPointsRequestType"></complexType>
+	<xs:element name="StopPointsRequest" type="tr:StopPointsRequestType">
+	</xs:element>
 
-    <complexType name="StopPointsResponseType">
-    	<sequence maxOccurs="unbounded" minOccurs="0">
-    		<element name="stopPoint" type="tns:StopPointType"></element>
-    	</sequence>
-    </complexType>
-    
-    <complexType name="StopTimeRequestType">
-    	<attribute name="stopPointId" type="int"></attribute>
-    </complexType>
-    
-    <complexType name="StopTimeResponseType">
-    	<attribute name="date" type="dateTime"></attribute>
-    </complexType>
-    
-    <complexType name="StopPointType">
-    	<attribute name="id" type="int"></attribute>
-    	<attribute name="friendlyName" type="string"></attribute>
-    </complexType>
+	<xs:element name="StopTimeRequest" type="tr:StopTimeRequestType"></xs:element>
 
-    <element name="LinesRequest" type="tns:LinesRequestType"></element>
-    
-    <element name="LinesResponse" type="tns:LinesResponseType"></element>
-    
-    <element name="RateRequest" type="tns:RateRequestType"></element>
-    
+	<xs:element name="StopPointsResponse" type="tr:StopPointsResponseType">
+	</xs:element>
 
-    <complexType name="LinesResponseType">
-    	<sequence>
-    		<element name="line" type="tns:LineType" minOccurs="0" maxOccurs="unbounded"></element>
-    	</sequence>
-    </complexType>
+	<xs:element name="StopTimeResponse" type="tr:StopTimeResponseType"></xs:element>
+
+	<xs:complexType name="StopPointsRequestType">
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType" maxOccurs="1"
+				minOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StopPointsResponseType">
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element name="stopPoint" type="tr:StopPointType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StopTimeRequestType">
+
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType"></xs:element>
+			<xs:element name="stopPoint" type="tr:StopPointType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StopTimeResponseType">
+		<xs:sequence>
+            <xs:element name="line" type="tr:LineType"></xs:element>
+            <xs:element name="stopPoint" type="tr:StopPointType"></xs:element>
+
+		</xs:sequence>
+		<xs:attribute name="date" type="xs:dateTime"></xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="StopPointType">
+		<xs:attribute name="id" type="xs:int"></xs:attribute>
+		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:element name="LinesRequest" type="tr:LinesRequestType"></xs:element>
+
+	<xs:element name="LinesResponse" type="tr:LinesResponseType"></xs:element>
+
+	<xs:element name="RateRequest" type="tr:RateRequestType"></xs:element>
+
+
+	<xs:complexType name="LinesResponseType">
+		<xs:sequence>
+			<xs:element name="line" type="tr:RatedLineType"
+				minOccurs="0" maxOccurs="unbounded">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LinesRequestType"></xs:complexType>
+
+
+	<xs:complexType name="RateRequestType">
+
+		<xs:sequence>
+			<xs:element name="line" type="tr:LineType"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="action" type="tr:RateActionType"></xs:attribute>
+
+	</xs:complexType>
+
+	<xs:simpleType name="RateActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="like"></xs:enumeration>
+			<xs:enumeration value="dislike"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="LineType">
+		<xs:attribute name="id" type="xs:int"></xs:attribute>
+		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+
+
+	</xs:complexType>
+
+	<xs:element name="BikeStationsRequest" type="tr:BikeStationsRequestType">
+	</xs:element>
+
+	<xs:complexType name="BikeStationsRequestType"></xs:complexType>
+
+	<xs:element name="BikeStationsResponse" type="tr:BikeStationsResponseType">
+	</xs:element>
+
+	<xs:complexType name="BikeStationsResponseType">
+		<xs:sequence>
+			<xs:element name="station" type="tr:BikeStationType"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BikeStationType">
+		<xs:attribute name="number" type="xs:int"></xs:attribute>
+		<xs:attribute name="contract" type="xs:string"></xs:attribute>
+		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+	</xs:complexType>
+
+	<xs:element name="AvailableBikesRequest" type="tr:AvailableBikesRequestType">
+	</xs:element>
+
+	<xs:complexType name="AvailableBikesRequestType">
+		<xs:sequence>
+			<xs:element name="station" type="tr:BikeStationType"></xs:element>
+		</xs:sequence>
+
+
+    </xs:complexType>
+
+    <xs:element name="AvailableBikesResponse"
+    	type="tr:AvailableBikesResponseType">
+    </xs:element>
     
-    <complexType name="LinesRequestType"></complexType>
+    <xs:complexType name="AvailableBikesResponseType">
 
-    <element name="RateResponse" type="tns:RateResponseType"></element>
-    
-    <complexType name="RateRequestType">
-    	<attribute name="action" type="tns:RateActionType"></attribute>
-    </complexType>
-    
-    <simpleType name="RateActionType">
-    	<restriction base="string">
-    		<enumeration value="like"></enumeration>
-    		<enumeration value="dislike"></enumeration>
-    		<enumeration value="get"></enumeration>
-    	</restriction>
-    </simpleType>
+    	<xs:sequence>
+    		<xs:element name="station" type="tr:BikeStationType"></xs:element>
+    	</xs:sequence>
+    	<xs:attribute name="availableBikes" type="xs:int"></xs:attribute>
+    </xs:complexType>
 
-    <complexType name="RateResponseType">
-    	<attribute name="likes" type="int"></attribute>
-    	<attribute name="dislikes" type="int"></attribute>
-    </complexType>
-
-    <complexType name="LineType">
-    	<attribute name="id" type="int"></attribute>
-    	<attribute name="friendlyName" type="string"></attribute>
-    </complexType>
-
-    <element name="BikeStationsRequest"
-    	type="tns:BikeStationsRequestType">
-    </element>
-    
-    <complexType name="BikeStationsRequestType"></complexType>
-
-    <element name="BikeStationsResponse"
-    	type="tns:BikeStationsResponseType">
-    </element>
-    
-    <complexType name="BikeStationsResponseType">
-    	<sequence>
-    		<element name="station" type="tns:BikeStationType" maxOccurs="unbounded" minOccurs="0"/>
-    	</sequence>
-    </complexType>
-
-    <complexType name="BikeStationType">
-    	<attribute name="number" type="int"></attribute>
-    	<attribute name="contract" type="string"></attribute>
-    	<attribute name="friendlyName" type="string"></attribute>
-    </complexType>
-
-    <element name="AvailableBikesRequest"
-    	type="tns:AvailableBikesRequestType">
-    </element>
-    
-    <complexType name="AvailableBikesRequestType">
-    	<attribute name="number" type="int"></attribute>
-    	<attribute name="contract" type="string"></attribute>
-    </complexType>
-
-    <element name="AvailableBikesResponse"
-    	type="tns:AvailableBikesResponseType">
-    </element>
-    
-    <complexType name="AvailableBikesResponseType">
-    	<attribute name="availableBikes" type="int"></attribute>
-    </complexType>
-</schema>
+    <xs:complexType name="RatedLineType">
+    	<xs:complexContent>
+    		<xs:extension base="tr:LineType">
+    			<xs:attribute name="likes" type="xs:int"></xs:attribute>
+    			<xs:attribute name="dislikes" type="xs:int"></xs:attribute>
+    		</xs:extension>
+    	</xs:complexContent>
+    </xs:complexType>
+</xs:schema>

@@ -1,5 +1,5 @@
 <AvailableBikesRequest xmlns="http://iaws/ws/transports"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
-	<station number="2" contract="random contract" friendlyName="Another random station" />
+	<station number="227" contract="Toulouse" friendlyName="UPS métro" />
 </AvailableBikesRequest>

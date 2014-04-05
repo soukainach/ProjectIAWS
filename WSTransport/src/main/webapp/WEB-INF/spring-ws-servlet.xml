@@ -13,11 +13,11 @@
 
 	<bean id="WSTransportEndpoint" class="ws.WSTransportEndpoint">
 		<constructor-arg name="couchDbService" ref="couchDbService" />
-		<constructor-arg name="openDataService" ref="openDataService" />
+		<constructor-arg name="jcDecauxService" ref="jcDecauxService" />
 		<constructor-arg name="tisseoService" ref="tisseoService" />
 	</bean>
-	<bean id="couchDbService" class="ws.CouchDbServiceDummy" />
-	<bean id="openDataService" class="ws.OpenDataServiceDummy" />
-	<bean id="tisseoService" class="ws.TisseoServiceDummy" />
+	<bean id="couchDbService" class="services.CouchDbServiceDummy" />
+	<bean id="jcDecauxService" class="services.JCDecauxServiceDummy" />
+	<bean id="tisseoService" class="services.TisseoServiceDummy" />
 	
 </beans>

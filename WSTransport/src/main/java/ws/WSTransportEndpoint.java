@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaces.ICouchDbService;
-import interfaces.JCDecauxService;
+import interfaces.IJcDecauxService;
 import interfaces.ITisseoService;
 
 import org.jdom.JDOMException;
@@ -26,15 +26,15 @@ public class WSTransportEndpoint {
 	public static final String NAMESPACE_URI = "http://iaws/ws/transports";
 
 	private final ICouchDbService mCouchDbService;
-	private final JCDecauxService mOpenDataService;
+	private final IJcDecauxService mOpenDataService;
 	private final ITisseoService mTisseoService;
 
 	@Autowired
 	public WSTransportEndpoint(ICouchDbService couchDbService,
-			JCDecauxService jcdecauxService, ITisseoService tisseoService)
+			IJcDecauxService jcDecauxService, ITisseoService tisseoService)
 			throws JDOMException {
 		mCouchDbService = couchDbService;
-		mOpenDataService = jcdecauxService;
+		mOpenDataService = jcDecauxService;
 		mTisseoService = tisseoService;
 	}
 
