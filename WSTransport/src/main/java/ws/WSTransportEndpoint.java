@@ -62,7 +62,7 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleStopPointsRequest(
-			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@id") Long lineId,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
 		Line line = new Line(lineId, lineFriendlyName);
@@ -73,9 +73,9 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleStopTimeRequest(
-			@XPathParam("//tr:stopPoint/@id") Integer stopPointId,
+			@XPathParam("//tr:stopPoint/@id") Long stopPointId,
 			@XPathParam("//tr:stopPoint/@friendlyName") String stopPointFriendlyName,
-			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@id") Long lineId,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
 		StopPoint stopPoint = new StopPoint(stopPointId, stopPointFriendlyName);
@@ -99,7 +99,7 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	public void handleRateRequest(
 			@XPathParam("/tr:RateRequest/@action") String action,
-			@XPathParam("//tr:line/@id") Integer id,
+			@XPathParam("//tr:line/@id") Long id,
 			@XPathParam("//tr:line/@friendlyName") String friendlyName)
 			throws Exception {
 		Line line = new Line(id, friendlyName);

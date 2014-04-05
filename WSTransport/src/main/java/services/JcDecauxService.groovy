@@ -19,6 +19,7 @@ import interfaces.IJcDecauxService;
 
 @Service
 public class JcDecauxService implements IJcDecauxService {
+	private static final String API_KEY = "969f71318582304067419dfddc9ea08b16d567f6";
 	private static final List<BikeStation> mUpsStations;
 
 	static {
@@ -42,7 +43,7 @@ public class JcDecauxService implements IJcDecauxService {
 			url = new URL(
 					"https://api.jcdecaux.com/vls/v1/stations/"
 					+ id
-					+ "?contract=Toulouse&apiKey=969f71318582304067419dfddc9ea08b16d567f6");
+					+ "?contract=Toulouse&apiKey=" + API_KEY);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.connect();

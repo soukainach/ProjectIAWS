@@ -10,8 +10,12 @@ import groovy.json.JsonSlurper
 import groovyx.net.http.HTTPBuilder
 import interfaces.ITisseoService;
 
+import static groovyx.net.http.Method.GET
+import static groovyx.net.http.ContentType.JSON
+
 @Service
 class TisseoService implements ITisseoService {
+	private static final String API_KEY = "a03561f2fd10641d96fb8188d209414d8";
 
 	public List<Line> getLines() {
 		def jsonLines = linesRequest();
@@ -24,18 +28,17 @@ class TisseoService implements ITisseoService {
 	}
 
 	public String getNextStop(Line line, StopPoint stopPoint) {
-		def stopTimes = stopTimesRequest;
+		def stopTimes = stopTimesRequest();
 		return parseStopTimes(stopTimes);
 	}
 
 	private def linesRequest() {
 		def retourJson = "Erreur"
 		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
-		def path = '/linesList?format=json&network=Tisséo&key=a03561f2fd10641d96fb8188d209414d8'
-
+		def path = "/linesList?format=json&network=Tisséo&key=" + API_KEY;
 
 		//Get request
-		adresseServeur.request(Method.GET, JSON) {
+		adresseServeur.request(GET, JSON) {
 
 			uri.path = path
 
@@ -64,7 +67,7 @@ class TisseoService implements ITisseoService {
 
 		for(int i=0;i<lig.size();i++)
 		{
-			Line l = new Line(lig[i].id, lig[i].name);
+			Line l = new Line(lig[i].id.toLong(), (String) lig[i].name);
 			ret.add(l);
 		}
 
@@ -75,11 +78,11 @@ class TisseoService implements ITisseoService {
 	{
 		def retourJson = "Erreur"
 		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
-		def path='/stopAreasList?lineId='+lineid+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
+		def path='/stopPointsList?lineId='+lineid+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
 
 
 		//Get request
-		adresseServeur.request(Method.GET, JSON) {
+		adresseServeur.request(GET, JSON) {
 
 			uri.path = path
 
@@ -100,15 +103,15 @@ class TisseoService implements ITisseoService {
 		def jsonParse = sluuuurp.parseText(documentJson.toString())
 
 		Map jsonResult = (Map) jsonParse;
-		Map lines = (Map) jsonResult.get("stopAreas");
+		Map lines = (Map) jsonResult.get("physicalStops");
 
-		List arr = (List) lines.get("stopArea");
+		List arr = (List) lines.get("physicalStop");
 
 		List<StopPoint> ret = [];
 
 		for(int i=0;i<arr.size();i++)
 		{
-			StopPoint stopPoint = new StopPoint(arr[i].id, arr[i].name);
+			StopPoint stopPoint = new StopPoint(arr[i].id.toLong(), (String)arr[i].name);
 		}
 
 		return ret;
@@ -123,7 +126,7 @@ class TisseoService implements ITisseoService {
 
 
 		//Get request
-		adresseServeur.request(Method.GET, JSON) {
+		adresseServeur.request(GET, JSON) {
 
 			uri.path = path
 
@@ -155,6 +158,6 @@ class TisseoService implements ITisseoService {
 			return "No stop in the short future";
 		}
 
-		return dept[0].dateTime;
+		return (String) dept[0].dateTime;
 	}
 }

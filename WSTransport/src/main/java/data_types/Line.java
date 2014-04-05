@@ -1,15 +1,15 @@
 package data_types;
 
 public class Line {
-	private final int mId;
+	private final long mId;
 	private final String mFriendlyName;
 	
-	public Line(int id, String friendlyName) {
+	public Line(long id, String friendlyName) {
 		mId = id;
 		mFriendlyName = friendlyName;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return mId;
 	}
 	
