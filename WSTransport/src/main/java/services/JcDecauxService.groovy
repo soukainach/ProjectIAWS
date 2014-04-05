@@ -32,7 +32,6 @@ public class JcDecauxService implements IJcDecauxService {
 	}
 
 	public int getAvailableBikes(BikeStation bikeStation) {
-		bikeStation = new BikeStation(227, "", "");
 		int id = bikeStation.getNumber();
 		URL url;
 		HttpURLConnection connection = null;

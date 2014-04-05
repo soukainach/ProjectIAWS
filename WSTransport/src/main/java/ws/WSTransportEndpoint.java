@@ -50,12 +50,10 @@ public class WSTransportEndpoint {
 	@ResponsePayload
 	public Element handleAvailableBikesRequest(
 			@XPathParam("//tr:station/@number") Integer number,
-			@XPathParam("//tr:station/@contract") String contract)
+			@XPathParam("//tr:station/@contract") String contract,
+			@XPathParam("//tr:station/@friendlyName") String friendlyName)
 			throws Exception {
-		List<BikeStation> bikeStations = mJcDecauxService.getBikeStations();
-		BikeStation bikeStation = BikeStation
-				.getBikeStationByNumberAndContract(number, contract,
-						bikeStations);
+		BikeStation bikeStation = new BikeStation(number, contract, friendlyName);
 		int availableBikes = mJcDecauxService.getAvailableBikes(bikeStation);
 		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
