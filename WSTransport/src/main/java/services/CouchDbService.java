@@ -9,6 +9,12 @@ import data_types.Line;
 import data_types.RatedLine;
 import interfaces.ICouchDbService;
 
+/**
+ * This implementation assumes that the database has already been created. If
+ * not, create a database named DATABASE_NAME with futon. We also assume that
+ * the database is not corrupt, else cast exceptions can be thrown (we do not
+ * typecheck at all). Concurrent modifications could also throw an exception.
+ */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class CouchDbService implements ICouchDbService {
 	private static final String DATABASE_HOST = "localhost";
@@ -18,15 +24,22 @@ public class CouchDbService implements ICouchDbService {
 
 	public RatedLine getLineRatings(Line line) {
 		Database db = getDatabase();
-		Map res = db.getDocument(Map.class, "" + line.getId());
+		Map res;
+		try {
+			res = db.getDocument(Map.class, "" + line.getId());
+		} catch (Exception e) {
+			return new RatedLine(line, 0, 0);
+		}
 		return new RatedLine(line, (Long) res.get("likes"),
 				(Long) res.get("dislikes"));
 	}
 
 	public void registerLike(Line line) {
 		Database db = getDatabase();
-		Map res = db.getDocument(Map.class, "" + line.getId());
-		if (res == null) {
+		Map res;
+		try {
+			res = db.getDocument(Map.class, "" + line.getId());
+		} catch (Exception e) {
 			res = new HashMap();
 		}
 		Long likes = (Long) res.get("likes");
@@ -46,8 +59,10 @@ public class CouchDbService implements ICouchDbService {
 
 	public void registerDislike(Line line) {
 		Database db = getDatabase();
-		Map res = db.getDocument(Map.class, "" + line.getId());
-		if (res == null) {
+		Map res;
+		try {
+			res = db.getDocument(Map.class, "" + line.getId());
+		} catch (Exception e) {
 			res = new HashMap();
 		}
 		Long likes = (Long) res.get("likes");

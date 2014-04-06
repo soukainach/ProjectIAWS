@@ -1,11 +1,13 @@
 package ws;
 
+import static org.junit.Assert.assertTrue;
 import interfaces.ICouchDbService;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import data_types.Line;
+import data_types.RatedLine;
 import services.CouchDbService;
 
 public class CouchDbServiceTest {
@@ -18,13 +20,13 @@ public class CouchDbServiceTest {
 
 	@Test
 	public void test() {
-		Line line = new Line(1, "");
-		System.out.println(mCouchDbService.getLineRatings(line).getLikes());
+		Line line = new Line(3, "");
+		RatedLine ratedLine = mCouchDbService.getLineRatings(line);
+		long likes = ratedLine.getLikes();
+		long dislikes = ratedLine.getDislikes();
 		mCouchDbService.registerLike(line);
-		System.out.println(mCouchDbService.getLineRatings(line).getLikes());
-		System.out.println(mCouchDbService.getLineRatings(line).getDislikes());
 		mCouchDbService.registerDislike(line);
-		System.out.println(mCouchDbService.getLineRatings(line).getDislikes());
+		assertTrue(likes + 1 == mCouchDbService.getLineRatings(line).getLikes());
+		assertTrue(dislikes + 1 == mCouchDbService.getLineRatings(line).getDislikes());
 	}
-
 }

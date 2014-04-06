@@ -16,7 +16,7 @@
 		<constructor-arg name="jcDecauxService" ref="jcDecauxService" />
 		<constructor-arg name="tisseoService" ref="tisseoService" />
 	</bean>
-	<bean id="couchDbService" class="services.CouchDbServiceDummy" />
+	<bean id="couchDbService" class="services.CouchDbService" />
 	<bean id="jcDecauxService" class="services.JcDecauxService" />
 	<bean id="tisseoService" class="services.TisseoService" />
 

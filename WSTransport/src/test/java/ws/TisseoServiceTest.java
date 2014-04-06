@@ -21,7 +21,7 @@ public class TisseoServiceTest {
 
 	@Test
 	public void test() {
-		Line line = mTisseoService.getLines().get(7);
+		Line line = mTisseoService.getLines().get(6);
 		List<StopPoint> stopPoints = mTisseoService.getStopPoints(line);
 		for (StopPoint stopPoint : stopPoints) {
 			System.out.println(stopPoint.getFriendlyName());
