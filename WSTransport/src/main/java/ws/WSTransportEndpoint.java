@@ -53,7 +53,8 @@ public class WSTransportEndpoint {
 			@XPathParam("//tr:station/@contract") String contract,
 			@XPathParam("//tr:station/@friendlyName") String friendlyName)
 			throws Exception {
-		BikeStation bikeStation = new BikeStation(number, contract, friendlyName);
+		BikeStation bikeStation = new BikeStation(number, contract,
+				friendlyName);
 		int availableBikes = mJcDecauxService.getAvailableBikes(bikeStation);
 		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
@@ -63,9 +64,10 @@ public class WSTransportEndpoint {
 	@ResponsePayload
 	public Element handleStopPointsRequest(
 			@XPathParam("//tr:line/@id") Long lineId,
+			@XPathParam("//tr:line/@shortName") String shortName,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
-		Line line = new Line(lineId, lineFriendlyName);
+		Line line = new Line(lineId, shortName, lineFriendlyName);
 		return XmlHelper.stopPointsResponse(mTisseoService.getStopPoints(line));
 	}
 
@@ -74,12 +76,15 @@ public class WSTransportEndpoint {
 	@ResponsePayload
 	public Element handleStopTimeRequest(
 			@XPathParam("//tr:stopPoint/@id") Long stopPointId,
+			@XPathParam("//tr:stopPoint/@direction") String direction,
 			@XPathParam("//tr:stopPoint/@friendlyName") String stopPointFriendlyName,
 			@XPathParam("//tr:line/@id") Long lineId,
+			@XPathParam("//tr:line/@shortName") String lineShortName,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
-		StopPoint stopPoint = new StopPoint(stopPointId, stopPointFriendlyName);
-		Line line = new Line(lineId, lineFriendlyName);
+		StopPoint stopPoint = new StopPoint(stopPointId, direction,
+				stopPointFriendlyName);
+		Line line = new Line(lineId, lineShortName, lineFriendlyName);
 		return XmlHelper.stopTimeResponse(line, stopPoint,
 				mTisseoService.getNextStop(line, stopPoint));
 	}
@@ -100,9 +105,10 @@ public class WSTransportEndpoint {
 	public void handleRateRequest(
 			@XPathParam("/tr:RateRequest/@action") String action,
 			@XPathParam("//tr:line/@id") Long id,
+			@XPathParam("//tr:line/@shortName") String shortName,
 			@XPathParam("//tr:line/@friendlyName") String friendlyName)
 			throws Exception {
-		Line line = new Line(id, friendlyName);
+		Line line = new Line(id, shortName, friendlyName);
 		if (action.equals("like")) {
 			mCouchDbService.registerLike(line);
 		} else if (action.equals("dislike")) {

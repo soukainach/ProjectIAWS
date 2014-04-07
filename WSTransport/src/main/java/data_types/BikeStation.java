@@ -1,7 +1,4 @@
 package data_types;
-
-import java.util.List;
-
 public class BikeStation {
 	private final int mNumber;
 	private final String mContract;
@@ -23,16 +20,5 @@ public class BikeStation {
 
 	public String getFriendlyName() {
 		return mFriendlyName;
-	}
-
-	public static BikeStation getBikeStationByNumberAndContract(int number,
-			String contract, List<BikeStation> list) {
-		for (BikeStation bikeStation : list) {
-			if (bikeStation.mNumber == number
-					&& contract.equals(bikeStation.mContract)) {
-				return bikeStation;
-			}
-		}
-		return null;
 	}
 }

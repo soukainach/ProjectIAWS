@@ -20,7 +20,7 @@ public class CouchDbServiceTest {
 
 	@Test
 	public void test() {
-		Line line = new Line(3, "");
+		Line line = new Line(3, "ABC", "");
 		RatedLine ratedLine = mCouchDbService.getLineRatings(line);
 		long likes = ratedLine.getLikes();
 		long dislikes = ratedLine.getDislikes();

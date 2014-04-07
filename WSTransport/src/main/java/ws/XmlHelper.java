@@ -88,6 +88,7 @@ public class XmlHelper {
 	private static Element stopPoint(Document document, StopPoint stopPoint) {
 		Element ret = document.createElement("stopPoint");
 		ret.setAttribute("id", "" + stopPoint.getId());
+		ret.setAttribute("direction", stopPoint.getDirection());
 		ret.setAttribute("friendlyName", stopPoint.getFriendlyName());
 		return ret;
 	}
@@ -104,6 +105,7 @@ public class XmlHelper {
 	private static Element ratedLine(Document document, RatedLine line) {
 		Element ret = document.createElement("line");
 		ret.setAttribute("id", line.getId() + "");
+		ret.setAttribute("shortName", line.getShortName());
 		ret.setAttribute("friendlyName", line.getFriendlyName());
 		ret.setAttribute("likes", "" + line.getLikes());
 		ret.setAttribute("dislikes", "" + line.getDislikes());
@@ -113,6 +115,7 @@ public class XmlHelper {
 	private static Element line(Document document, Line line) {
 		Element ret = document.createElement("line");
 		ret.setAttribute("id", line.getId() + "");
+		ret.setAttribute("shortName", line.getShortName());
 		ret.setAttribute("friendlyName", line.getFriendlyName());
 		return ret;
 	}

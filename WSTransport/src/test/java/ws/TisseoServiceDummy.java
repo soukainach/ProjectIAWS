@@ -11,8 +11,8 @@ public class TisseoServiceDummy implements ITisseoService {
 
 	public List<Line> getLines() {
 		List<Line> ret = new ArrayList<Line>();
-		ret.add(new Line(1, "Ligne lambda"));
-		ret.add(new Line(2, "Ligne lambda 2"));
+		ret.add(new Line(1, "ABC", "Ligne lambda"));
+		ret.add(new Line(2, "DEF", "Ligne lambda 2"));
 		return ret;
 	}
 
@@ -21,8 +21,8 @@ public class TisseoServiceDummy implements ITisseoService {
 			return new ArrayList<StopPoint>();
 		}
 		List<StopPoint> ret = new ArrayList<StopPoint>();
-		ret.add(new StopPoint(1, "Point d'arrêt 1"));
-		ret.add(new StopPoint(2, "Point d'arrêt 2"));
+		ret.add(new StopPoint(1, "ABC", "Point d'arrêt 1"));
+		ret.add(new StopPoint(2, "ABC", "Point d'arrêt 2"));
 		return ret;
 	}
 

@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import data_types.Line;
 import data_types.StopPoint;
+import groovy.json.JsonLexer;
 import groovy.json.JsonSlurper
 import groovyx.net.http.HTTPBuilder
 import interfaces.ITisseoService;
-
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.ContentType.JSON
 
@@ -35,7 +35,7 @@ class TisseoService implements ITisseoService {
 	private def linesRequest() {
 		def retourJson = "Erreur"
 		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
-		def path = "/linesList?format=json&network=Tisséo&key=" + API_KEY;
+		def path = "/linesList?format=json&network=Tisséo&displayTerminus=1&key=" + API_KEY;
 
 		//Get request
 		adresseServeur.request(GET, JSON) {
@@ -67,7 +67,7 @@ class TisseoService implements ITisseoService {
 
 		for(int i=0;i<lig.size();i++)
 		{
-			Line l = new Line(lig[i].id.toLong(), (String) lig[i].name);
+			Line l = new Line(lig[i].id.toLong(), lig[i].shortName, (String) lig[i].name);
 			ret.add(l);
 		}
 
@@ -78,7 +78,7 @@ class TisseoService implements ITisseoService {
 	{
 		def retourJson = "Erreur"
 		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
-		def path='/stopPointsList?lineId='+lineid+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
+		def path='/stopPointsList?lineId='+lineid+'&displayDestinations=1&key=a03561f2fd10641d96fb8188d209414d8&format=json'
 
 
 		//Get request
@@ -116,7 +116,7 @@ class TisseoService implements ITisseoService {
 
 		for(int i=0;i<arr.size();i++)
 		{
-			StopPoint stopPoint = new StopPoint(arr[i].id.toLong(), (String)arr[i].name);
+			StopPoint stopPoint = new StopPoint(arr[i].id.toLong(), arr[i].destinations[0].name, arr[i].name);
 			ret.add(stopPoint);
 		}
 
@@ -124,43 +124,44 @@ class TisseoService implements ITisseoService {
 	}
 
 	def stopTimesRequest(def stopId) {
-			def retourJson = "Erreur"
-			def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
+		def retourJson = "Erreur"
+		def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
 
-			def path = "/departureBoard?stopPointId=" + stopId + "&key=" + API_KEY + "&format=json";
+		def path = "/departureBoard?stopPointId=" + stopId + "&key=" + API_KEY + "&format=json";
 
-			//Get request
-			adresseServeur.request(GET, JSON) {
+		//Get request
+		adresseServeur.request(GET, JSON) {
 
-				uri.path = path
+			uri.path = path
 
-				// success response handler
-				response.success = { resp, json ->
-					retourJson = json
-				}
-
-				// failure response handler
-				response.failure = { resp -> println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}" }
+			// success response handler
+			response.success = { resp, json ->
+				retourJson = json
 			}
+
+			// failure response handler
+			response.failure = { resp -> println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}" }
+		}
 
 		retourJson
 	}
 
 	String parseStopTimes(def documentJson) {
-			JsonSlurper sluuuurp = new JsonSlurper()
-			def jsonParse = sluuuurp.parseText(documentJson.toString())
+		JsonSlurper sluuuurp = new JsonSlurper()
+		def jsonParse = sluuuurp.parseText(documentJson.toString())
 
-			Map jsonResult = (Map) jsonParse;
-			Map departures = (Map) jsonResult.get("departures");
+		Map jsonResult = (Map) jsonParse;
+		Map departures = (Map) jsonResult.get("departures");
 
 
-			List dept = (List) departures.get("departure");
-			String ret = dept[0].dateTime;
-			
-			if(ret == null) {
-				ret = "No stop in the short future";
-			}
-			
-			return ret;
+		List dept = (List) departures.get("departure");
+
+		String ret = dept[0].dateTime;
+
+		if(ret == null) {
+			ret = "No stop in the short future";
+		}
+
+		return ret;
 	}
 }

@@ -46,6 +46,7 @@
 	<xs:complexType name="StopPointType">
 		<xs:attribute name="id" type="xs:long"></xs:attribute>
 		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+		<xs:attribute name="direction" type="xs:string"></xs:attribute>
 	</xs:complexType>
 
 	<xs:element name="LinesRequest" type="tr:LinesRequestType"></xs:element>
@@ -85,7 +86,8 @@
 
 	<xs:complexType name="LineType">
 		<xs:attribute name="id" type="xs:long"></xs:attribute>
-		<xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
+        <xs:attribute name="shortName" type="xs:string"></xs:attribute>
+        <xs:attribute name="friendlyName" type="xs:string"></xs:attribute>
 
 
 	</xs:complexType>

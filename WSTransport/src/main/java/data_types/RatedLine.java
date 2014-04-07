@@ -5,7 +5,7 @@ public class RatedLine extends Line {
 	private final long mDislikes;
 
 	public RatedLine(Line line, long likes, long dislikes) {
-		super(line.getId(), line.getFriendlyName());
+		super(line.getId(), line.getShortName(), line.getFriendlyName());
 		mLikes = likes;
 		mDislikes = dislikes;
 	}
