@@ -1,5 +1,7 @@
 package services
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -153,15 +155,14 @@ class TisseoService implements ITisseoService {
 		Map jsonResult = (Map) jsonParse;
 		Map departures = (Map) jsonResult.get("departures");
 
-
-		List dept = (List) departures.get("departure");
-
-		String ret = dept[0].dateTime;
-
-		if(ret == null) {
-			ret = "No stop in the short future";
-		}
-
-		return ret;
+			List dept = (List) departures.get("departure");
+			if(dept.size() < 1) {
+				return null;
+			}
+			String dateStr = dept[0].dateTime;
+			DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = jsonDateFormat.parse(dateStr);
+			DateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			return xmlDateFormat.format(date);
 	}
 }
