@@ -24,8 +24,12 @@ public class JcDecauxService implements IJcDecauxService {
 
 	static {
 		mUpsStations = new ArrayList<BikeStation>();
-		BikeStation bikeStation = new BikeStation(227, "Toulouse", "UPS métro");
-		mUpsStations.add(bikeStation);
+		mUpsStations.add(new BikeStation(227, "Toulouse", "UPS métro"));
+		mUpsStations.add(new BikeStation(232, "Toulouse", "64 RTE DE NARBONNE"));
+		mUpsStations.add(new BikeStation(233, "Toulouse", "105 RTE DE NARBONNE"));
+		mUpsStations.add(new BikeStation(231, "Toulouse", "RANGUEIL / CL ROCHE"));
+		mUpsStations.add(new BikeStation(228, "Toulouse", "FACE 35 CHEMIN DES MARAICHERS"));
+		mUpsStations.add(new BikeStation(230, "Toulouse", "141 AV DE RANGUEIL"));
 	}
 
 	public List<BikeStation> getBikeStations() {
