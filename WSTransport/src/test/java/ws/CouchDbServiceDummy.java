@@ -6,9 +6,6 @@ import interfaces.ICouchDbService;
 
 public class CouchDbServiceDummy implements ICouchDbService {
 
-	
-	
-	
 	public RatedLine getLineRatings(Line line) {
 		return new RatedLine(line, 1, 0);
 	}

@@ -7,17 +7,17 @@
 	<sws:annotation-driven />
 
 	<sws:dynamic-wsdl id="WSTransport" portTypeName="WSTransport"
-		locationUri="/WSTransport/" targetNamespace="http://iaws/ws/transports">
+		locationUri="/WSTransport/">
 		<sws:xsd location="/WEB-INF/xsd/WSTransport.xsd" />
 	</sws:dynamic-wsdl>
 
 	<bean id="WSTransportEndpoint" class="ws.WSTransportEndpoint">
 		<constructor-arg name="couchDbService" ref="couchDbService" />
-		<constructor-arg name="openDataService" ref="openDataService" />
+		<constructor-arg name="jcDecauxService" ref="jcDecauxService" />
 		<constructor-arg name="tisseoService" ref="tisseoService" />
 	</bean>
-	<bean id="couchDbService" class="ws.CouchDbServiceDummy" />
-	<bean id="openDataService" class="ws.OpenDataServiceDummy" />
-	<bean id="tisseoService" class="ws.TisseoServiceDummy" />
-	
+	<bean id="couchDbService" class="services.CouchDbService" />
+	<bean id="jcDecauxService" class="services.JcDecauxService" />
+	<bean id="tisseoService" class="services.TisseoService" />
+
 </beans>

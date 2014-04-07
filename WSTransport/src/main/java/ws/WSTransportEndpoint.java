@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaces.ICouchDbService;
-import interfaces.JCDecauxService;
+import interfaces.IJcDecauxService;
 import interfaces.ITisseoService;
 
 import org.jdom.JDOMException;
@@ -26,22 +26,22 @@ public class WSTransportEndpoint {
 	public static final String NAMESPACE_URI = "http://iaws/ws/transports";
 
 	private final ICouchDbService mCouchDbService;
-	private final JCDecauxService mOpenDataService;
+	private final IJcDecauxService mJcDecauxService;
 	private final ITisseoService mTisseoService;
 
 	@Autowired
 	public WSTransportEndpoint(ICouchDbService couchDbService,
-			JCDecauxService jcdecauxService, ITisseoService tisseoService)
+			IJcDecauxService jcDecauxService, ITisseoService tisseoService)
 			throws JDOMException {
 		mCouchDbService = couchDbService;
-		mOpenDataService = jcdecauxService;
+		mJcDecauxService = jcDecauxService;
 		mTisseoService = tisseoService;
 	}
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "BikeStationsRequest")
 	@ResponsePayload
 	public Element handleBikeStationsRequest() throws Exception {
-		return XmlHelper.bikeStationsResponse(mOpenDataService
+		return XmlHelper.bikeStationsResponse(mJcDecauxService
 				.getBikeStations());
 	}
 
@@ -50,13 +50,11 @@ public class WSTransportEndpoint {
 	@ResponsePayload
 	public Element handleAvailableBikesRequest(
 			@XPathParam("//tr:station/@number") Integer number,
-			@XPathParam("//tr:station/@contract") String contract)
+			@XPathParam("//tr:station/@contract") String contract,
+			@XPathParam("//tr:station/@friendlyName") String friendlyName)
 			throws Exception {
-		List<BikeStation> bikeStations = mOpenDataService.getBikeStations();
-		BikeStation bikeStation = BikeStation
-				.getBikeStationByNumberAndContract(number, contract,
-						bikeStations);
-		int availableBikes = mOpenDataService.getAvailableBikes(bikeStation);
+		BikeStation bikeStation = new BikeStation(number, contract, friendlyName);
+		int availableBikes = mJcDecauxService.getAvailableBikes(bikeStation);
 		return XmlHelper.availableBikesResponse(bikeStation, availableBikes);
 	}
 
@@ -64,7 +62,7 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleStopPointsRequest(
-			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@id") Long lineId,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
 		Line line = new Line(lineId, lineFriendlyName);
@@ -75,9 +73,9 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	@ResponsePayload
 	public Element handleStopTimeRequest(
-			@XPathParam("//tr:stopPoint/@id") Integer stopPointId,
+			@XPathParam("//tr:stopPoint/@id") Long stopPointId,
 			@XPathParam("//tr:stopPoint/@friendlyName") String stopPointFriendlyName,
-			@XPathParam("//tr:line/@id") Integer lineId,
+			@XPathParam("//tr:line/@id") Long lineId,
 			@XPathParam("//tr:line/@friendlyName") String lineFriendlyName)
 			throws Exception {
 		StopPoint stopPoint = new StopPoint(stopPointId, stopPointFriendlyName);
@@ -101,7 +99,7 @@ public class WSTransportEndpoint {
 	@Namespace(prefix = "tr", uri = NAMESPACE_URI)
 	public void handleRateRequest(
 			@XPathParam("/tr:RateRequest/@action") String action,
-			@XPathParam("//tr:line/@lid") Integer id,
+			@XPathParam("//tr:line/@id") Long id,
 			@XPathParam("//tr:line/@friendlyName") String friendlyName)
 			throws Exception {
 		Line line = new Line(id, friendlyName);
