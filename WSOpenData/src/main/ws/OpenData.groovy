@@ -64,7 +64,7 @@ class OpenData {
 	def ListeLignes(def stopId) {
 		
 		  def retourJson = "Erreur"
-		  def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
+		  def adresseServeur = new HTTPBuilder("")
 		  
 		  def path= 'departureBoard?stopPointId='+stopId+'&key=a03561f2fd10641d96fb8188d209414d8&format=json'
 		 
@@ -120,14 +120,15 @@ class OpenData {
 		 
 		  retourJson
 	  }
+
 	
 	
-	def Likes() {
-		
+	def LatLngPointArea() {
+		 
 		  def retourJson = "Erreur"
-		  def adresseServeur = new HTTPBuilder("http://localhost:5984")
+		  def adresseServeur = new HTTPBuilder("http://pt.data.tisseo.fr")
 		  
-		  def path= '/test/763d9a738924c91acdb160edb00005a8'
+		  def path= '/stopAreasList?displayLines=1&displayCoordXY=1&key=a03561f2fd10641d96fb8188d209414d8&format=json'
 		 
 		  
 		  //Get request
@@ -149,34 +150,33 @@ class OpenData {
 		  retourJson
 	  }
 	
-	
-	def postLikes()
-	{
-	
-    def retourJson = "Erreur"
-		  def adresseServeur = new HTTPBuilder("http://localhost:5984")
-		  
-		  def path= '/test/763d9a738924c91acdb160edb00005a8'
+	def ToulouseBikesStations() {
+		
+		 def retourJson = "Erreur"
 		 
-		  
-		  //Get request
-		  adresseServeur.request(Method.POST,JSON) {
-		  
-			  uri.path = path
-			 
-			body = [NameLine:'metro B',LikesNumber:'2']
-			  // success response handler
-			  response.success = { resp, json ->
-				  retourJson = json
-			  }
-			
-			  // failure response handler
-			  response.failure = { resp ->
-				  println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
-			  }
-		  }
+		 def adresseServeur = new HTTPBuilder("https://api.jcdecaux.com")
 		 
-		  retourJson
-	}
+		 def path= '/vls/v1/stations?contract=Toulouse&apiKey=969f71318582304067419dfddc9ea08b16d567f6'
+		
+		 
+		 //Get request
+		 adresseServeur.request(Method.GET, JSON) {
+		 
+			 uri.path = path
+		   
+			 // success response handler
+			 response.success = { resp, json ->
+				 retourJson = json
+			 }
+		   
+			 // failure response handler
+			 response.failure = { resp ->
+				 println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
+			 }
+		 }
+		
+		 retourJson
+	 }
+	
 	
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MoyenPlusFiableRequest xmlns="http://iaws/ws/transports"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
+	<adresse rue="rue maurice becanne" ville="Toulouse" cp="31400" />
+	<stationVelo number="227" contract="Toulouse" friendlyName="UPS métro" />
+	
+</MoyenPlusFiableRequest>

@@ -24,6 +24,17 @@ class ParsserArretTest extends GroovyTestCase {
 		
 		
 	}
+	void testParserLngLat() {
+		
+		OpenData arretsTest = new OpenData()
+		
+		def docJsonTest = arretsTest.LatLngPointArea()
+		
+		def parseur = new ParserInformations()
+		parseur.parserLatLng(docJsonTest)
+		
+		
+	}
 	
 	/****
 	 * 

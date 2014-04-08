@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BikesStationsResponse xmlns="http://iaws/ws/transports"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://iaws/ws/transports WSTransport.xsd">
+	<station number="227" contract="Toulouse" friendlyName="UPS métro" lat="1.34" lng="34.567" />
+</BikesStationsResponse>

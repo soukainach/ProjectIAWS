@@ -62,7 +62,7 @@ public class ParserInformations {
 		JsonSlurper sluuuurp = new JsonSlurper()
 		def jsonParse = sluuuurp.parseText(documentJson.toString())
 		
-		Map jsonResult = (Map) jsonParse;
+		/*Map jsonResult = (Map) jsonParse;
 		Map lines = (Map) jsonResult.get("stopAreas");
 		
 		List arr = (List) lines.get("stopArea");
@@ -73,8 +73,14 @@ public class ParserInformations {
 			System.out.println(" Destination :"+arr[i].name+ "id: "+arr[i].id)
 	   
 		
+		}*/
+		Map jsonResult = (Map) jsonParse;
+		Map lines = (Map) jsonResult.get("physicalStops");
+		List arr = (List) lines.get("physicalStop");
+		for(int i=0;i<arr.size();i++)
+		{
+			System.out.println(" Destination :"+arr[i].name+ "id: "+arr[i].id+"x"+x+"y"+y)
 		}
-	
 	}
 	
 	
@@ -106,6 +112,31 @@ public class ParserInformations {
 		
 		
 	} 
+	
+	
+	void parserLatLng(def documentJson) {
+		JsonSlurper sluuuurp = new JsonSlurper()
+		def jsonParse = sluuuurp.parseText(documentJson.toString())
+		
+		Map jsonResult = (Map) jsonParse;
+		Map departures = (Map) jsonResult.get("physicalStops");
+		
+		
+		List dept = (List) departures.get("physicalStop");
+		
+		for(int i=0;i<dept.size();i++)
+		{
+			
+			System.out.println("l'arrêt :"+dept[i].name+ " latitude :"+dept[i].x+ "longitude: "+dept[i].y)
+	  
+	  
+		
+		
+		}
+		
+		
+		
+	}
 
 	/********
 	 * 

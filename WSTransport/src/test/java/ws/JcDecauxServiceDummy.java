@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_types.BikeStation;
+import data_types.BikesStations;
 import interfaces.IJcDecauxService;
 
 public class JcDecauxServiceDummy implements IJcDecauxService {
@@ -18,5 +19,10 @@ public class JcDecauxServiceDummy implements IJcDecauxService {
 		// It would be a shame if bikeStation was null
 		bikeStation.getNumber();
 		return 1;
+	}
+
+	public double getBikeLatLng(BikesStations bikesStations) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

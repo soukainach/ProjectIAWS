@@ -6,7 +6,7 @@ import main.traitement.ParsserAdresse
 import main.ws.WSOpenStreetMap
 import main.traitement.DistanceDeplacement
 
-class ParsserAdresseTest extends GroovyTestCase {
+class CopyOfParsserAdresseTest extends GroovyTestCase {
 
 	
 	
@@ -17,9 +17,8 @@ class ParsserAdresseTest extends GroovyTestCase {
 		
 		def parseur = new ParsserAdresse()
 		parseur.parsserAdress(docJsonTest)
-		//println  parseur.getLatitude()
-		//println "test"
-		//println  parseur.getLongitude()
+		println parseur.getLatitude()
+		println parseur.getLongitude()
 		
 	}
 	
@@ -31,7 +30,6 @@ class ParsserAdresseTest extends GroovyTestCase {
 		def parseur = new ParsserAdresse()
 		parseur.parsserAdress(docJsonTest)
 		println parseur.getLatitude()
-		println "test"
 		println parseur.getLongitude()
 		
 	}
@@ -41,6 +39,4 @@ class ParsserAdresseTest extends GroovyTestCase {
 		double distance=tt.distance(43.5610851,1.4626835);
 		System.out.println(" la distance entre paul sabatier et chez moi: "+distance);
 	}
-	
-	
 }

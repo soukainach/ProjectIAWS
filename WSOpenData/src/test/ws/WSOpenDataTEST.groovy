@@ -1,6 +1,7 @@
 package test.ws
 import main.ws.*
 import main.traitement.ParserBikeStations
+import main.traitement.ParserBikesDistance
 import main.ws.OpenDataProchainsPassages
 
 class WSOpenDataTEST extends GroovyTestCase {
@@ -14,7 +15,7 @@ class WSOpenDataTEST extends GroovyTestCase {
 	
 	void testListeLigne() {
 		OpenData ligneTest = new OpenData()
-		def retour = ligneTest.ListeLignes(1970324837184714)
+		def retour = ligneTest.ListeLignes(1970324837185612)
 		//println retour
 	
 		assertTrue(retour != "Erreur")
@@ -31,6 +32,13 @@ class WSOpenDataTEST extends GroovyTestCase {
 		assertTrue(retour != "Erreur")
 	}
 	
+	void testBikesStation()
+	{
+		ParserBikeStations VeloTest = new ParserBikeStations()
+		def retour = VeloTest.ToulouseBikes()
+		println retour
+		assertTrue(retour != "Erreur")
+	}
 	/****
 	 * 
 	 * 	test sur lignes de reseau de tisseo
@@ -59,25 +67,14 @@ class WSOpenDataTEST extends GroovyTestCase {
 			assertTrue(retour != "Erreur")
 		  }
 		
-	 
-		 void testgetLikes()
+		 void testLatLngPointArea()
 		 {
-			
-			OpenData data = new OpenData()
-			def retour = data.Likes()
-			println retour
-			assertTrue(retour != "Erreur")
-		  }
-		 
-		 void testpostLikes()
-		 {
-			
-			OpenData data = new OpenData()
-			def retour = data.postLikes()
-			println retour
-			assertTrue(retour != "Erreur")
+			 OpenData ligneTest = new OpenData()
+			 def retour = ligneTest.LatLngPointArea()
+			// println retour
+			 assertTrue(retour != "Erreur")
 		 }
+		 		 
 		 
-	 
 	
 }
