@@ -1,7 +1,5 @@
 package data_types;
 
-import java.util.List;
-
 public class BikesStations {
 	private final int mNumber;
 	private final String mContract;
@@ -34,14 +32,4 @@ public class BikesStations {
 	public double getLng() {
 		return mlng;
 	}
-	/*public static BikeStation getBikeStationByNumberAndContract(int number,
-			String contract, List<BikeStation> list) {
-		for (BikeStation bikeStation : list) {
-			if (bikeStation.mNumber == number
-					&& contract.equals(bikeStation.mContract)) {
-				return bikeStation;
-			}
-		}
-		return null;
-	}*/
 }
